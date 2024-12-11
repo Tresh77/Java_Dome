@@ -1,0 +1,6 @@
+com\zqBingo\guahao\controller\TbRegistrationController.class
+com\zqBingo\guahao\domain\TbRegistration.class
+com\zqBingo\guahao\service\ITbRegistrationService.class
+com\zqBingo\guahao\mapper\TbRegistrationMapper.class
+com\zqBingo\App.class
+com\zqBingo\guahao\service\impl\TbRegistrationServiceImpl.class

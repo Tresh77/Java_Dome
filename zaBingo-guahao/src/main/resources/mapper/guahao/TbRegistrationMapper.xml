@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zqBingo.guahao.mapper.TbRegistrationMapper">
+    
+    <resultMap type="TbRegistration" id="TbRegistrationResult">
+        <result property="id"    column="id"    />
+        <result property="patientId"    column="patient_id"    />
+        <result property="departmentId"    column="department_id"    />
+        <result property="doctorId"    column="doctor_id"    />
+        <result property="predictTimeBegin"    column="predict_time_begin"    />
+        <result property="predictTimeEnd"    column="predict_time_end"    />
+        <result property="quantity"    column="quantity"    />
+    </resultMap>
+
+    <sql id="selectTbRegistrationVo">
+        select id, patient_id, department_id, doctor_id, predict_time_begin, predict_time_end, quantity from tb_registration
+    </sql>
+
+    <select id="selectTbRegistrationList" parameterType="TbRegistration" resultMap="TbRegistrationResult">
+        <include refid="selectTbRegistrationVo"/>
+        <where>  
+            <if test="patientId != null "> and patient_id = #{patientId}</if>
+            <if test="departmentId != null "> and department_id = #{departmentId}</if>
+            <if test="doctorId != null "> and doctor_id = #{doctorId}</if>
+            <if test="predictTimeBegin != null "> and predict_time_begin = #{predictTimeBegin}</if>
+            <if test="predictTimeEnd != null "> and predict_time_end = #{predictTimeEnd}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbRegistrationById" parameterType="Long" resultMap="TbRegistrationResult">
+        <include refid="selectTbRegistrationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTbRegistration" parameterType="TbRegistration" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_registration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">patient_id,</if>
+            <if test="departmentId != null">department_id,</if>
+            <if test="doctorId != null">doctor_id,</if>
+            <if test="predictTimeBegin != null">predict_time_begin,</if>
+            <if test="predictTimeEnd != null">predict_time_end,</if>
+            <if test="quantity != null">quantity,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">#{patientId},</if>
+            <if test="departmentId != null">#{departmentId},</if>
+            <if test="doctorId != null">#{doctorId},</if>
+            <if test="predictTimeBegin != null">#{predictTimeBegin},</if>
+            <if test="predictTimeEnd != null">#{predictTimeEnd},</if>
+            <if test="quantity != null">#{quantity},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbRegistration" parameterType="TbRegistration">
+        update tb_registration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patientId != null">patient_id = #{patientId},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="doctorId != null">doctor_id = #{doctorId},</if>
+            <if test="predictTimeBegin != null">predict_time_begin = #{predictTimeBegin},</if>
+            <if test="predictTimeEnd != null">predict_time_end = #{predictTimeEnd},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbRegistrationById" parameterType="Long">
+        delete from tb_registration where id = #{id}
+    </delete>
+
+    <delete id="deleteTbRegistrationByIds" parameterType="String">
+        delete from tb_registration where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

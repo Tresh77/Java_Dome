@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zqBingo.keshi.mapper.TbDepartmentMapper">
+    
+    <resultMap type="TbDepartment" id="TbDepartmentResult">
+        <result property="id"    column="id"    />
+        <result property="departmentId"    column="department_id"    />
+        <result property="departmentPhone"    column="department_phone"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="departmentShort"    column="department_short"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectTbDepartmentVo">
+        select id, department_id, department_phone, department_name, department_short, status from tb_department
+    </sql>
+
+    <select id="selectTbDepartmentList" parameterType="TbDepartment" resultMap="TbDepartmentResult">
+        <include refid="selectTbDepartmentVo"/>
+        <where>  
+            <if test="departmentId != null "> and department_id = #{departmentId}</if>
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbDepartmentById" parameterType="Long" resultMap="TbDepartmentResult">
+        <include refid="selectTbDepartmentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTbDepartment" parameterType="TbDepartment" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentId != null">department_id,</if>
+            <if test="departmentPhone != null">department_phone,</if>
+            <if test="departmentName != null">department_name,</if>
+            <if test="departmentShort != null">department_short,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentId != null">#{departmentId},</if>
+            <if test="departmentPhone != null">#{departmentPhone},</if>
+            <if test="departmentName != null">#{departmentName},</if>
+            <if test="departmentShort != null">#{departmentShort},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbDepartment" parameterType="TbDepartment">
+        update tb_department
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="departmentPhone != null">department_phone = #{departmentPhone},</if>
+            <if test="departmentName != null">department_name = #{departmentName},</if>
+            <if test="departmentShort != null">department_short = #{departmentShort},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbDepartmentById" parameterType="Long">
+        delete from tb_department where id = #{id}
+    </delete>
+
+    <delete id="deleteTbDepartmentByIds" parameterType="String">
+        delete from tb_department where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

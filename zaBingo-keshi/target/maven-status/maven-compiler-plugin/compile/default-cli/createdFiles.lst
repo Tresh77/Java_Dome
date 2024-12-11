@@ -1,0 +1,6 @@
+com\zqBingo\keshi\service\impl\TbDepartmentServiceImpl.class
+com\zqBingo\keshi\mapper\TbDepartmentMapper.class
+com\zqBingo\App.class
+com\zqBingo\keshi\controller\TbDepartmentController.class
+com\zqBingo\keshi\domain\TbDepartment.class
+com\zqBingo\keshi\service\ITbDepartmentService.class
